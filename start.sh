@@ -35,9 +35,9 @@ echo "Using user ID $(id -u gmvault)."
 chown -R gmvault:gmvault /data
 
 # Set up crontab.
-echo "" > $CRONTAB
-echo "${GMVAULT_FULL_SYNC_SCHEDULE} /app/backup_full.sh" >> $CRONTAB
-echo "${GMVAULT_QUICK_SYNC_SCHEDULE} /app/backup_quick.sh" >> $CRONTAB
+# echo "" > $CRONTAB
+# echo "${GMVAULT_FULL_SYNC_SCHEDULE} /app/backup_full.sh" >> $CRONTAB
+# echo "${GMVAULT_QUICK_SYNC_SCHEDULE} /app/backup_quick.sh" >> $CRONTAB
 
 # Start app.
 if [ -f $OAUTH_TOKEN ]; then
@@ -55,7 +55,7 @@ if [ -f $OAUTH_TOKEN ]; then
 		echo "No sync on startup, see GMVAULT_SYNC_ON_STARTUP if you would like to change this."
 	fi
 
-	crond -f
+	exit 0
 fi
 
 echo "#############################"
@@ -65,4 +65,3 @@ echo ""
 echo "No Gmail OAuth token found at $OAUTH_TOKEN."
 echo "Please set it up with the instructions at https://github.com/guillaumeaubert/gmvault-docker#running-this-container-for-the-first-time."
 
-/bin/bash
