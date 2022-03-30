@@ -55,7 +55,9 @@ if [ -f $OAUTH_TOKEN ]; then
 		echo "No sync on startup, see GMVAULT_SYNC_ON_STARTUP if you would like to change this."
 	fi
 
-	/bin/bash
+	echo "Running $@"
+
+	exec /bin/bash "$@"
 fi
 
 echo "#############################"
