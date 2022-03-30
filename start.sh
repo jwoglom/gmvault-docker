@@ -55,7 +55,7 @@ if [ -f $OAUTH_TOKEN ]; then
 		echo "No sync on startup, see GMVAULT_SYNC_ON_STARTUP if you would like to change this."
 	fi
 
-	exit 0
+	/bin/bash
 fi
 
 echo "#############################"
@@ -65,3 +65,4 @@ echo ""
 echo "No Gmail OAuth token found at $OAUTH_TOKEN."
 echo "Please set it up with the instructions at https://github.com/guillaumeaubert/gmvault-docker#running-this-container-for-the-first-time."
 
+exit 0
