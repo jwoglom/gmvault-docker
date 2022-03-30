@@ -12,25 +12,25 @@ Code Status
 Overview
 --------
 
-A Docker image that runs Gmvault on a regular basis, with both quick (daily) and
-full (weekly) synchronization schedules. Emails out sync reports through ssmtp.
+A Docker image that runs Gmvault with either quick or full synchronization schedules.
 
 ```
 docker run \
 	-v /my/backup/directory:/data \
-	-v /my/host/ssmtp.conf:/etc/ssmtp/ssmtp.conf \
 	-t \
 	-d \
 	--name=Gmvault \
 	-e GMVAULT_UID=$(id -u myuser) \
 	-e GMVAULT_GID=$(id -g mygroup) \
 	-e GMVAULT_EMAIL_ADDRESS="myaddress@gmail.com" \
-	aubertg/gmvault-docker
+	jwoglom/gmvault-docker /app/backup_full.sh
 ```
 
 
 Running this container for the first time
 -----------------------------------------
+
+See https://github.com/gaubert/gmvault/issues/335#issuecomment-846483036
 
 Gmvault requires authenticated access to the account you want to back up. Due
 to Google's new security requirements in order to get access to email data,
@@ -67,23 +67,6 @@ properly:
 * **`/data`**  
 	Where the OAuth token, email backups, and logs will be stored.
 
-* **`/etc/ssmtp/ssmtp.conf`**  
-	A ssmtp config file to send emails reports from the Docker container.
-
-	Example for Gmail:
-	```
-	# Settings for Gmail SMTP service.
-	mailhub=smtp.gmail.com:587
-	hostname=smtp.gmail.com:587
-	UseSTARTTLS=YES
-	FromLineOverride=YES
-
-	# Gmail account.
-	root=mygmailaddress@gmail.com
-	AuthUser=mygmailaddress@gmail.com
-	AuthPass=mypassword
-	```
-
 
 Environment Variables
 ---------------------
@@ -92,9 +75,6 @@ The container is configurable through the following environment variables:
 
 * **`GMVAULT_EMAIL_ADDRESS`** *(required)*  
 	The email address of the account to back up.
-
-* **`GMVAULT_SEND_REPORTS_TO`** *(optional)*  
-	The email address to send reports to; defaults to `GMVAULT_EMAIL_ADDRESS`.
 
 * **`GMVAULT_UID`** *(optional)*  
 	Numeric uid in the host that should own created files; defaults to 9000.
@@ -108,19 +88,14 @@ The container is configurable through the following environment variables:
 * **`GMVAULT_OPTIONS`** *(optional)*  
 	Additional options to pass to gmvault (such as `-c no`).
 
-* **`GMVAULT_QUICK_SYNC_SCHEDULE`** *(optional)*  
-	Custom quick sync schedule; defaults to daily.
-
-* **`GMVAULT_FULL_SYNC_SCHEDULE`** *(optional)*  
-	Custom full sync schedule; defaults to weekly.
-
 * **`GMVAULT_SYNC_ON_STARTUP`** *(optional)*  
-	Set to `yes` to trigger a sync when the container starts, in addition to the
-	normal cron schedule.
+	Set to `yes` to trigger a sync when the container starts
 
 
 Thanks
 ------
+
+This repository is a fork of https://github.com/guillaumeaubert/gmvault-docker
 
 * Thank you [Guillaume Aubert](https://github.com/gaubert) for developing
 [Gmvault](https://github.com/gaubert/gmvault)!
