@@ -57,7 +57,7 @@ if [ -f $OAUTH_TOKEN ]; then
 
 	echo "Running $@"
 
-	exec /bin/bash "$@"
+	exec "$@"
 fi
 
 echo "#############################"
